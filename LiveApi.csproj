@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>LiveApi</RootNamespace>
+    <Version>0.1.0</Version>
+    <Description>Client for the LiveAPI reference-data API.</Description>
+    <Authors>LiveAPI</Authors>
+  </PropertyGroup>
+</Project>
