@@ -129,6 +129,34 @@ public sealed class Client : IDisposable
         return PostAsync<VatCheck>("/v1/vat/validate", body, cancellationToken);
     }
 
+    /// <summary>Lists the national ID, tax and company number checks.</summary>
+    public async Task<List<IdValidator>> IdValidatorsAsync(CancellationToken cancellationToken = default) =>
+        (await GetAsync<IdValidatorList>("/v1/validate", cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>Checks a national number offline, for example ("ES", "nif", "12345678Z").</summary>
+    public Task<IdValidation> ValidateIdAsync(string country, string type, string value, CancellationToken cancellationToken = default) =>
+        PostAsync<IdValidation>($"/v1/validate/{Uri.EscapeDataString(country)}/{Uri.EscapeDataString(type)}", new Dictionary<string, string> { ["value"] = value }, cancellationToken);
+
+    public Task<PostalCodeCountries> PostalCodeCountriesAsync(CancellationToken cancellationToken = default) =>
+        GetAsync<PostalCodeCountries>("/v1/postal-codes", cancellationToken);
+
+    public Task<PostalCodeLookup> PostalCodeAsync(string country, string code, CancellationToken cancellationToken = default) =>
+        GetAsync<PostalCodeLookup>($"/v1/postal-codes/{Uri.EscapeDataString(country)}/{Uri.EscapeDataString(code)}", cancellationToken);
+
+    /// <summary>Country and administrative area for a point.</summary>
+    public Task<ReverseGeocode> ReverseGeocodeAsync(double latitude, double longitude, CancellationToken cancellationToken = default) =>
+        GetAsync<ReverseGeocode>("/v1/reverse" + Query(
+            ("lat", latitude.ToString(System.Globalization.CultureInfo.InvariantCulture)),
+            ("lon", longitude.ToString(System.Globalization.CultureInfo.InvariantCulture))), cancellationToken);
+
+    /// <summary>Parses a User-Agent string, for example one your server received.</summary>
+    public Task<UserAgent> ParseUserAgentAsync(string ua, CancellationToken cancellationToken = default) =>
+        PostAsync<UserAgent>("/v1/user-agent", new Dictionary<string, string> { ["ua"] = ua }, cancellationToken);
+
+    /// <summary>Checks an EAN-8, UPC-A, EAN-13, GTIN-14 or ISBN check digit.</summary>
+    public Task<BarcodeValidation> ValidateBarcodeAsync(string code, CancellationToken cancellationToken = default) =>
+        GetAsync<BarcodeValidation>("/v1/barcodes/validate" + Query(("code", code)), cancellationToken);
+
     public void Dispose()
     {
         if (ownsClient) http.Dispose();

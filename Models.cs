@@ -85,6 +85,11 @@ public sealed class IpLocation
     public string? Source { get; set; }
     public string? Attribution { get; set; }
     public string? AttributionUrl { get; set; }
+    /// <summary>Listed in the Tor exit list. null when the list is not loaded.</summary>
+    public bool? IsTor { get; set; }
+    /// <summary>Inside a published cloud or hosting range. null when the data is not loaded.</summary>
+    public bool? IsHosting { get; set; }
+    public string? HostingProvider { get; set; }
 }
 
 public sealed class CallingCode
@@ -303,6 +308,154 @@ public sealed class VatCheck
     public string? Address { get; set; }
     public string RequestDate { get; set; } = "";
     public string Source { get; set; } = "";
+}
+
+public sealed class IdValidator
+{
+    public string Country { get; set; } = "";
+    public string Type { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Holder { get; set; } = "";
+    public string Description { get; set; } = "";
+    public string Example { get; set; } = "";
+    public string Path { get; set; } = "";
+}
+
+public sealed class IdValidatorList
+{
+    public List<IdValidator> Data { get; set; } = [];
+}
+
+public sealed class IdValidation
+{
+    public bool Valid { get; set; }
+    public string? Normalized { get; set; }
+    public string Country { get; set; } = "";
+    public string Type { get; set; } = "";
+    public string? Reason { get; set; }
+    public JsonElement? Details { get; set; }
+    public bool RegistryChecked { get; set; }
+}
+
+public sealed class GeoNamesAttribution
+{
+    public string Source { get; set; } = "";
+    public string Url { get; set; } = "";
+    public string License { get; set; } = "";
+}
+
+public sealed class PostalCodeCountry
+{
+    public string Country { get; set; } = "";
+    public int Count { get; set; }
+    public bool Partial { get; set; }
+    public string Updated { get; set; } = "";
+}
+
+public sealed class PostalCodeCountries
+{
+    public List<PostalCodeCountry> Data { get; set; } = [];
+    public GeoNamesAttribution Attribution { get; set; } = new();
+}
+
+public sealed class PostalPlace
+{
+    public string PostalCode { get; set; } = "";
+    public string Place { get; set; } = "";
+    public string? Admin1 { get; set; }
+    [JsonPropertyName("admin1_code")]
+    public string? Admin1Code { get; set; }
+    public string? Admin2 { get; set; }
+    [JsonPropertyName("admin2_code")]
+    public string? Admin2Code { get; set; }
+    public string? Admin3 { get; set; }
+    [JsonPropertyName("admin3_code")]
+    public string? Admin3Code { get; set; }
+    public double? Latitude { get; set; }
+    public double? Longitude { get; set; }
+    public int? Accuracy { get; set; }
+}
+
+public sealed class PostalCodeLookup
+{
+    public string Country { get; set; } = "";
+    public string Query { get; set; } = "";
+    public string PostalCode { get; set; } = "";
+    public string Match { get; set; } = "";
+    public bool PartialData { get; set; }
+    public string? CoverageNote { get; set; }
+    public List<PostalPlace> Places { get; set; } = [];
+    public string Updated { get; set; } = "";
+    /// <summary>GeoNames, CC BY 4.0. Keep it when you show the data.</summary>
+    public GeoNamesAttribution Attribution { get; set; } = new();
+}
+
+public sealed class ReverseArea
+{
+    public string? Code { get; set; }
+    public string? Id { get; set; }
+    public string Name { get; set; } = "";
+    public string? Type { get; set; }
+}
+
+public sealed class ReverseGeocode
+{
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
+    public string CountryCode { get; set; } = "";
+    public string? CountryName { get; set; }
+    public ReverseArea? Admin1 { get; set; }
+    public ReverseArea? Admin2 { get; set; }
+    public string Precision { get; set; } = "";
+    public string Attribution { get; set; } = "";
+}
+
+public sealed class UaNameVersion
+{
+    public string? Name { get; set; }
+    public string? Version { get; set; }
+    public string? Major { get; set; }
+}
+
+public sealed class UaDevice
+{
+    public string Type { get; set; } = "";
+    public string? Vendor { get; set; }
+    public string? Model { get; set; }
+}
+
+public sealed class UaCpu
+{
+    public string? Architecture { get; set; }
+}
+
+public sealed class UserAgent
+{
+    public string Ua { get; set; } = "";
+    public UaNameVersion Browser { get; set; } = new();
+    public UaNameVersion Engine { get; set; } = new();
+    public UaNameVersion Os { get; set; } = new();
+    public UaDevice Device { get; set; } = new();
+    public UaCpu Cpu { get; set; } = new();
+    public bool IsBot { get; set; }
+    public string? BotMatch { get; set; }
+}
+
+public sealed class BarcodeValidation
+{
+    public string Input { get; set; } = "";
+    public string Normalized { get; set; } = "";
+    public bool Valid { get; set; }
+    public string? Type { get; set; }
+    public string? Reason { get; set; }
+    public string? CheckDigit { get; set; }
+    public string? ExpectedCheckDigit { get; set; }
+    [JsonPropertyName("gtin14")]
+    public string? Gtin14 { get; set; }
+    [JsonPropertyName("isbn10")]
+    public string? Isbn10 { get; set; }
+    [JsonPropertyName("isbn13")]
+    public string? Isbn13 { get; set; }
 }
 
 public sealed class Point
