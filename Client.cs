@@ -48,6 +48,9 @@ public sealed class Client : IDisposable
     public Task<Country> CountryAsync(string code, CancellationToken cancellationToken = default) =>
         GetAsync<Country>("/v1/countries/" + Uri.EscapeDataString(code), cancellationToken);
 
+    public Task<Country> CountryWithGeoShapeAsync(string code, CancellationToken cancellationToken = default) =>
+        GetAsync<Country>("/v1/countries/" + Uri.EscapeDataString(code) + "?include=geoshape", cancellationToken);
+
     public Task<List<Division>> DivisionsAsync(string country, CancellationToken cancellationToken = default) =>
         GetAsync<List<Division>>("/v1/countries/" + Uri.EscapeDataString(country) + "/divisions", cancellationToken);
 

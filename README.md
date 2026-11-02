@@ -9,6 +9,8 @@ var client = new LiveApi.Client(Environment.GetEnvironmentVariable("LIVEAPI_TOKE
 var phone = await client.ValidatePhoneAsync("0555 111 22 33", "TR");
 ```
 
+Use `await client.CountryWithGeoShapeAsync("TR")` to request the optional GeoJSON country boundary and attribution.
+
 Reference this project, or add the package once it is published to NuGet.
 
 New in this version: `IdValidatorsAsync`, `ValidateIdAsync`, `PostalCodeCountriesAsync`, `PostalCodeAsync`, `ReverseGeocodeAsync`, `ParseUserAgentAsync`, `ValidateBarcodeAsync`, and the IP risk fields `IsTor`, `IsHosting`, `HostingProvider`.
@@ -23,4 +25,4 @@ var ua = await client.ParseUserAgentAsync(Request.Headers.UserAgent.ToString());
 
 Docs: https://liveapi.io/docs
 
-IP lookups include `Attribution` and `AttributionUrl`. Keep those fields when you store or show a DB-IP result. Postal-code results carry a GeoNames `attribution` (CC BY 4.0); keep it too. A validation result with `Valid` false is still HTTP 200 and uses one call. Only a non-2xx response is free.
+IP lookups include `Attribution` and `AttributionUrl`. Keep those fields when you store or show a DB-IP result. Postal-code results identify LiveAPI's in-house dataset. A validation result with `Valid` false is still HTTP 200 and uses one call. Only a non-2xx response is free.

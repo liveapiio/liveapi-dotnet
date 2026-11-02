@@ -37,6 +37,15 @@ public sealed class Country
     public List<Language> Languages { get; set; } = [];
     public string? CallingCode { get; set; }
     public bool InEu { get; set; }
+    public JsonElement? GeoShape { get; set; }
+    public GeoShapeAttribution? GeoShapeAttribution { get; set; }
+}
+
+public sealed class GeoShapeAttribution
+{
+    public string? Source { get; set; }
+    public string? Url { get; set; }
+    public string? License { get; set; }
 }
 
 public sealed class Division
@@ -337,6 +346,7 @@ public sealed class IdValidation
     public bool RegistryChecked { get; set; }
 }
 
+// Public name retained for source compatibility with earlier client releases.
 public sealed class GeoNamesAttribution
 {
     public string Source { get; set; } = "";
@@ -386,7 +396,7 @@ public sealed class PostalCodeLookup
     public string? CoverageNote { get; set; }
     public List<PostalPlace> Places { get; set; } = [];
     public string Updated { get; set; } = "";
-    /// <summary>GeoNames, CC BY 4.0. Keep it when you show the data.</summary>
+    /// <summary>LiveAPI in-house postal dataset.</summary>
     public GeoNamesAttribution Attribution { get; set; } = new();
 }
 
